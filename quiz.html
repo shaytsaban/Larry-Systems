@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>מפגש 3 · מפרסמים דשבורד ב-GitHub · שיעור אינטראקטיבי</title>
+    <meta name="description" content="סקירת מושגים ובחינה עצמית אינטראקטיבית על פרסום דשבורד Tableau באתר GitHub Pages" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Assistant:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --bg-2: #F1F5F9;
+            --card: #FFFFFF;
+            --card-2: #F8FAFC;
+            --card-3: #E2E8F0;
+            --border: rgba(0,0,0,0.06);
+            --border-2: rgba(0,0,0,0.10);
+            --border-accent: rgba(59,130,246,0.30);
+            --fg: #0F172A;
+            --fg-2: #475569;
+            --fg-3: #94A3B8;
+            --fg-4: #CBD5E1;
+            --accent: #3B82F6;
+            --accent-2: #6366F1;
+            --accent-3: #0EA5E9;
+            --accent-soft: rgba(59,130,246,0.08);
+            --accent-glow: rgba(59,130,246,0.20);
+            --success: #10B981;
+            --success-soft: rgba(16,185,129,0.10);
+            --error: #EF4444;
+            --error-soft: rgba(239,68,68,0.08);
+            --warn: #F59E0B;
+            --warn-soft: rgba(245,158,11,0.10);
+            --larry: #7C3AED;
+            --sans: 'Heebo', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --ui: 'Assistant', 'Heebo', sans-serif;
+            --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --maxw: 1200px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--sans);
+            font-size: 15.5px;
+            line-height: 1.65;
+            direction: rtl;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -10%;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 0%, rgba(59,130,246,0.06), transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 10%, rgba(99,102,241,0.05), transparent 60%),
+                radial-gradient(ellipse 80% 50% at 50% 100%, rgba(14,165,233,0.04), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.025) 1px, transparent 0);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent 85%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent 85%);
+        }
+        a { color: inherit; text-decoration: none; }
+        img, svg, iframe, object { max-width: 100%; display: block; }
+        ::selection { background: var(--accent); color: #fff; }
+
+        .wrap {
+            position: relative;
+            z-index: 2;
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ============ NAV ============ */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--ui);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.01em;
+        }
+        .logo__mark {
+            width: 24px; height: 24px;
+            position: relative;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            border-radius: 7px;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.5), 0 4px 12px rgba(59,130,246,0.25);
+        }
+        .logo__mark::after {
+            content: "";
+            position: absolute;
+            inset: 5px;
+            border: 1.8px solid rgba(255,255,255,0.95);
+            border-radius: 3px;
+            border-left: none;
+            border-bottom: none;
+        }
+        .logo .muted { color: var(--fg-3); font-weight: 400; }
+        .logo .credit {
+            font-size: 11px;
+            color: var(--larry);
+            font-weight: 500;
+            background: rgba(124,58,237,0.08);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+        .nav__links {
+            display: flex;
+            gap: 28px;
+            font-family: var(--ui);
+            font-size: 14px;
+            color: var(--fg-2);
+        }
+        .nav__links a:hover { color: var(--fg); }
+        .nav__status {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--fg-3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav__status::before {
+            content: "";
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 2.2s ease-in-out infinite;
+        }
+        @media (max-width: 720px) {
+            .nav__links, .nav__status { display: none; }
+            .logo .credit { display: none; }
+        }
+
+        /* ============ HERO ============ */
+        .hero { padding: 88px 0 56px; }
+        .hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px 8px 16px;
+            background: var(--card);
+            border: 1px solid var(--border-2);
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-2);
+            margin-bottom: 28px;
+            animation: fadeUp .8s ease .05s both;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .hero__eyebrow .badge {
+            padding: 4px 12px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .hero__title {
+            font-family: var(--sans);
+            font-weight: 900;
+            font-size: clamp(40px, 6vw, 72px);
+            line-height: 1.05;
+            letter-spacing: -0.035em;
+            margin: 0 0 24px;
+            max-width: 920px;
+            animation: fadeUp .9s ease .15s both;
+        }
+        .hero__title .grad {
+            background: linear-gradient(135deg, #2563EB 0%, var(--accent) 30%, var(--accent-2) 60%, var(--accent-3) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero__larry {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 14px;
+            background: rgba(124,58,237,0.06);
+            border: 1px solid rgba(124,58,237,0.15);
+            border-radius: 999px;
+            font-size: 13px;
+            color: var(--larry);
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeUp .9s ease .2s both;
+        }
+        .hero__larry svg { width: 14px; height: 14px; }
+        .hero__sub {
+            font-size: 18px;
+            line-height: 1.65;
+            color: var(--fg-2);
+            max-width: 680px;
+            margin: 0 0 36px;
+            animation: fadeUp .9s ease .25s both;
+        }
+        .hero__actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            animation: fadeUp .9s ease .35s both;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 24px;
+            border-radius: var(--radius-sm);
+            font-family: var(--ui);
+            font-size: 14.5px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all .2s ease;
+            text-align: center;
+        }
+        .btn--primary {
+            background: var(--fg);
+            color: var(--bg);
+        }
+        .btn--primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.2);
+        }
+        .btn--ghost {
+            background: var(--card);
+            color: var(--fg);
+            border-color: var(--border-2);
+        }
+        .btn--ghost:hover {
+            background: var(--bg-2);
+            border-color: var(--border-accent);
+        }
+        .btn--accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            border: none;
+        }
+        .btn--accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -8px rgba(59,130,246,0.4);
+        }
+        .btn svg { width: 15px; height: 15px; }
+
+        /* ============ SECTIONS ============ */
+        .section {
+            padding: 88px 0;
+            position: relative;
+            z-index: 2;
+        }
+        .section-divider {
+            height: 1px;
+            background: var(--border-2);
+            margin: 0 28px;
+        }
+        .section-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 36px;
+            margin-bottom: 56px;
+            flex-wrap: wrap;
+        }
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .eyebrow::before {
+            content: "";
+            width: 20px; height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 2px;
+        }
+        .h2 {
+            font-size: clamp(30px, 4vw, 44px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            margin: 0;
+            max-width: 740px;
+        }
+        .section-head p {
+            font-size: 15.5px;
+            line-height: 1.65;
+            color: var(--fg-2);
+            max-width: 400px;
+            margin: 0;
+        }
+
+        /* ============ WORKFLOW ============ */
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            position: relative;
+        }
+        @media (max-width: 1000px) { .workflow { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 640px)  { .workflow { grid-template-columns: repeat(2, 1fr); } }
+
+        .step {
+            background: var(--card);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            position: relative;
+            transition: all .25s ease;
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .step:hover {
+            background: var(--card-2);
+            border-color: var(--border-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+        .step__num {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--fg-3);
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+        .step__icon {
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-soft);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            color: var(--accent);
+        }
+        .step__icon svg { width: 20px; height: 20px; }
+        .step h4 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .step p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--fg-2);
+            margin: 0;
+            margin-top: auto;
+        }
+        .step__tool {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            font-family: var(--mono);
+            font-size: 9.5px;
+            color: var(--fg-3);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+        .step code {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            padding: 1px 6px;
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--accent-2);
+            font-weight: 500;
+        }
+
+        /* ============ AI TOOLS ============ */
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 28px;
+        }
+        @media (max-width: 800px) { .ai-grid { grid-template-columns: 1fr; } }
+
+        .ai-card {
+            background: var(--card);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            transition: all .25s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+        }
+        .ai-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            border-color: var(--border-accent);
+        }
+        .ai-card__header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .ai-card__emoji {
+            font-size: 28px;
+            width: 48px; height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-2);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .ai-card__name {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .ai-card__badge {
+            font-family: var(--mono);
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        .ai-card__badge.free { background: var(--success-soft); color: var(--success); }
+        .ai-card__badge.paid { background: var(--warn-soft); color: var(--warn); }
+        .ai-card__badge.both { background: rgba(59,130,246,0.08); color: var(--accent); }
+        .ai-card__pros, .ai-card__cons {
+            margin: 0 0 12px;
+            padding: 0;
+            list-style: none;
+            font-size: 13.5px;
+            line-height: 1.65;
+        }
+        .ai-card__pros li::before { content: "✓ "; color: var(--success); font-weight: 700; }
+        .ai-card__cons li::before { content: "✗ "; color: var(--error); font-weight: 700; }
+        .ai-card__section-title {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--fg-3);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        /* ============ CONCEPTS ============ */
+        .concepts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-2);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-top: 28px;
+        }
+        @media (max-width: 900px) { .concepts { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .concepts { grid-template-columns: 1fr; } }
+
+        .concept {
+            background: var(--card);
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: background .2s;
+        }
+        .concept:hover { background: var(--bg-2); }
+        .concept__tag {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .concept h4 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+        .concept p {
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--fg-2);
+            margin: 0;
+        }
+        .concept code {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            padding: 2px 7px;
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            color: var(--accent-2);
+            font-weight: 500;
+        }
+
+        /* ============ LARRY CALLOUT ============ */
+        .larry-callout {
+            background: linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(99,102,241,0.04) 100%);
+            border: 1px solid rgba(124,58,237,0.12);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .larry-callout__icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--larry), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(124,58,237,0.25);
+        }
+        .larry-callout__text {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--fg-2);
+        }
+        .larry-callout__text strong {
+            color: var(--larry);
+            font-weight: 700;
+        }
+
+        /* ============ QUIZ ============ */
+        .quiz-intro {
+            background: linear-gradient(180deg, var(--card) 0%, var(--bg-2) 100%);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-lg);
+            padding: 56px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .quiz-intro::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-glow), transparent 60%);
+            pointer-events: none;
+        }
+        .quiz-intro__inner { position: relative; z-index: 1; }
+        .quiz-intro__tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--accent-soft);
+            border: 1px solid var(--border-accent);
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--accent);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+        .quiz-intro h2 {
+            font-size: clamp(30px, 4.5vw, 48px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin: 0 0 16px;
+        }
+        .quiz-intro p {
+            font-size: 17px;
+            line-height: 1.65;
+            color: var(--fg-2);
+            max-width: 560px;
+            margin: 0 auto 32px;
+        }
+        .quiz-intro__stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+        .quiz-intro__stat { text-align: center; }
+        .quiz-intro__stat .v {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .quiz-intro__stat .k {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--fg-3);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ============ QUIZ UI ============ */
+        .quiz-area {
+            display: none;
+            background: var(--card);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-lg);
+            padding: 44px 48px;
+            min-height: 500px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .quiz-area.active { display: block; animation: fadeIn .4s ease; }
+
+        .quiz-progress-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .quiz-progress {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-2);
+            border-radius: 999px;
+            overflow: hidden;
+            position: relative;
+            min-width: 200px;
+            border: 1px solid var(--border);
+        }
+        .quiz-progress__fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: inherit;
+            transition: width .4s cubic-bezier(.2,.8,.2,1);
+        }
+        .quiz-meta {
+            display: flex;
+            gap: 14px;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--fg-2);
+            flex-wrap: wrap;
+        }
+        .quiz-meta span {
+            padding: 5px 12px;
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-weight: 500;
+        }
+        .quiz-meta .score {
+            color: var(--accent);
+            border-color: var(--border-accent);
+        }
+        .quiz-meta .streak {
+            color: var(--warn);
+            border-color: rgba(245,158,11,0.2);
+        }
+
+        .q-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .q-num {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-3);
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+        .diff {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+        .diff.easy   { background: var(--success-soft); color: var(--success); }
+        .diff.medium { background: var(--warn-soft); color: var(--warn); }
+        .diff.hard   { background: var(--error-soft); color: var(--error); }
+
+        .q-text {
+            font-size: clamp(21px, 2.6vw, 28px);
+            font-weight: 800;
+            line-height: 1.4;
+            letter-spacing: -0.02em;
+            margin: 0 0 32px;
+            color: var(--fg);
+        }
+
+        .statements {
+            background: var(--bg-2);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 28px;
+        }
+        .statement {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 8px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--fg-2);
+        }
+        .statement__num {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-3);
+            font-weight: 700;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .statement__text { margin: 0; }
+
+        .opts {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .opt {
+            width: 100%;
+            text-align: start;
+            padding: 18px 22px;
+            background: var(--bg-2);
+            border: 1.5px solid var(--border-2);
+            border-radius: var(--radius);
+            color: var(--fg);
+            font-family: var(--sans);
+            font-size: 15.5px;
+            font-weight: 500;
+            line-height: 1.55;
+            cursor: pointer;
+            transition: all .2s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+        }
+        .opt:hover:not(:disabled) {
+            background: var(--card);
+            border-color: var(--border-accent);
+            transform: translateX(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .opt:disabled { cursor: default; opacity: 0.95; }
+        .opt__letter {
+            width: 32px; height: 32px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--card);
+            border: 1.5px solid var(--border-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--fg-2);
+            transition: all .2s;
+        }
+        .opt:hover .opt__letter { color: var(--fg); border-color: var(--accent); }
+
+        .opt.correct {
+            background: var(--success-soft);
+            border-color: var(--success);
+            color: var(--fg);
+        }
+        .opt.correct .opt__letter {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+        .opt.wrong {
+            background: var(--error-soft);
+            border-color: var(--error);
+        }
+        .opt.wrong .opt__letter {
+            background: var(--error);
+            border-color: var(--error);
+            color: #fff;
+        }
+        .opt__mark {
+            margin-inline-start: auto;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all .3s cubic-bezier(.2,1.6,.4,1);
+        }
+        .opt.correct .opt__mark,
+        .opt.wrong .opt__mark { opacity: 1; transform: scale(1); }
+        .opt.correct .opt__mark { color: var(--success); }
+        .opt.wrong .opt__mark { color: var(--error); }
+        .opt__mark svg { width: 22px; height: 22px; }
+
+        .explain {
+            display: none;
+            background: var(--bg-2);
+            border: 1px solid var(--border-2);
+            border-right: 4px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 28px;
+            animation: fadeIn .4s ease;
+        }
+        .explain.show { display: block; }
+        .explain__head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--fg-3);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .explain__head.correct { color: var(--success); }
+        .explain__head.wrong { color: var(--error); }
+        .explain__head::before {
+            content: "";
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--accent-3);
+        }
+        .explain__head.correct::before { background: var(--success); }
+        .explain__head.wrong::before { background: var(--error); }
+        .explain__title {
+            font-size: 16.5px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin: 0 0 10px;
+            color: var(--fg);
+        }
+        .explain__body {
+            font-size: 14.5px;
+            line-height: 1.7;
+            color: var(--fg-2);
+            margin: 0;
+        }
+        .explain__body strong { color: var(--fg); font-weight: 700; }
+        .explain__body code {
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 2px 8px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            color: var(--accent-2);
+            font-weight: 500;
+        }
+
+        .q-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .q-actions .hint {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--fg-3);
+            font-weight: 500;
+        }
+
+        /* ============ RESULTS ============ */
+        .results {
+            display: none;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card) 0%, var(--bg-2) 100%);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-lg);
+            padding: 64px 48px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .results.active { display: block; animation: fadeIn .5s ease; }
+        .results::before {
+            content: "";
+            position: absolute;
+            top: -30%;
+            right: 50%;
+            transform: translateX(50%);
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--accent-glow), transparent 60%);
+            pointer-events: none;
+        }
+        .results__inner { position: relative; z-index: 1; }
+        .results__emoji {
+            font-size: 72px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 1s ease infinite;
+        }
+        .results h2 {
+            font-size: clamp(34px, 5vw, 52px);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin: 0 0 16px;
+        }
+        .results__score {
+            font-size: clamp(64px, 9vw, 96px);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 24px 0 8px;
+            line-height: 1;
+        }
+        .results__score small {
+            font-size: 32px;
+            color: var(--fg-3);
+            font-weight: 700;
+            -webkit-text-fill-color: var(--fg-3);
+        }
+        .results__desc {
+            font-size: 17.5px;
+            color: var(--fg-2);
+            max-width: 560px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+        .results__breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-2);
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius);
+            overflow: hidden;
+            max-width: 600px;
+            margin: 0 auto 36px;
+        }
+        .results__breakdown > div {
+            background: var(--card);
+            padding: 22px 16px;
+        }
+        .results__breakdown .v {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .results__breakdown .k {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--fg-3);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .results__actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============ CONFETTI CANVAS ============ */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--border-2);
+            margin-top: 48px;
+        }
+        footer .wrap {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-3);
+            font-weight: 400;
+        }
+        footer .larry-credit {
+            color: var(--larry);
+            font-weight: 600;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake { animation: shake .35s ease; }
+
+        /* Mobile tweaks */
+        @media (max-width: 640px) {
+            .quiz-area { padding: 28px 20px; }
+            .quiz-intro { padding: 36px 24px; }
+            .results { padding: 44px 24px; }
+            .hero { padding: 64px 0 36px; }
+            .section { padding: 64px 0; }
+            .opt { padding: 16px 18px; font-size: 15px; }
+            .statements { padding: 18px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="wrap nav__inner">
+            <a href="#" class="logo">
+                <span class="logo__mark" aria-hidden="true"></span>
+                <span>Praxis<span class="muted">/learn</span></span>
+                <span class="credit">👨‍🏫 לארי</span>
+            </a>
+            <div class="nav__links">
+                <a href="#workflow">המסלול</a>
+                <a href="#ai-tools">כלי AI</a>
+                <a href="#concepts">מושגים</a>
+                <a href="#quiz">בחן את עצמך</a>
+            </div>
+            <span class="nav__status">MEETING 3</span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="wrap">
+            <div class="hero__eyebrow">
+                <span class="badge">Lesson 3</span>
+                <span>מפרסמים דשבורד ב-GitHub Pages</span>
+            </div>
+
+            <div class="hero__larry">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>המרצה: <strong>לארי</strong> — כל החומר מבוסס על ההרצאות וההדרכה שלו</span>
+            </div>
+
+            <h1 class="hero__title">
+                מ-Tableau אל <span class="grad">האתר החי</span> — כל המסלול, מקצה אל קצה.
+            </h1>
+
+            <p class="hero__sub">
+                סקירת מושגים, אינפוגרפיקה של תהליך העבודה, השוואה בין כלי AI, ו-18 שאלות עם משוב מיידי והסבר.
+                מטרת היחידה: לוודא שאתם יודעים לקחת דשבורד שבניתם ולהטמיע אותו באתר אמיתי
+                שמתארח בחינם ב-GitHub Pages — בלי שרת, בלי תחזוקה, בלי סיבוכים.
+            </p>
+
+            <div class="hero__actions">
+                <a href="#quiz" class="btn btn--accent">
+                    התחלת הבחינה
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                </a>
+                <a href="#workflow" class="btn btn--ghost">סקירת מושגים תחילה</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section id="workflow" class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <div class="eyebrow">01 · Workflow</div>
+                    <h2 class="h2">10 הצעדים — מהתוכנה המקומית אל האתר באוויר.</h2>
+                </div>
+                <p>זהו המסלול המלא שנסקר בשיעור. כל צעד מוביל ישירות לצעד הבא.</p>
+            </div>
+
+            <div class="workflow">
+                <div class="step">
+                    <div class="step__num">01</div>
+                    <div class="step__tool">TABLEAU</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg>
+                    </div>
+                    <h4>בניית הדשבורד</h4>
+                    <p>יוצרים את כל הגרפים והדשבורד בתוכנת Tableau המקומית.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">02</div>
+                    <div class="step__tool">TABLEAU</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                    <h4>Save to Tableau Public</h4>
+                    <p><code>File → Save to Tableau Public</code>. מעלים את הקובץ לענן.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">03</div>
+                    <div class="step__tool">TABLEAU PUBLIC</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    </div>
+                    <h4>Share → Copy Link</h4>
+                    <p>בלוח השיתוף מעתיקים את הקישור (ולא את ה-Embed Code).</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">04</div>
+                    <div class="step__tool">GITHUB</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </div>
+                    <h4>הרשמה ל-GitHub</h4>
+                    <p>נרשמים ב-<code>github.com</code>, מאשרים מייל, ונכנסים ל-Sign in.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">05</div>
+                    <div class="step__tool">GITHUB</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                    </div>
+                    <h4>New Repository</h4>
+                    <p>כפתור ״+״ → New Repository. מגדירים שם (חובה).</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">06</div>
+                    <div class="step__tool">AI TOOL</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+                    </div>
+                    <h4>יצירת HTML ב-AI</h4>
+                    <p>נזינים פרומפט ליצירת האתר. מומלץ כלי עם Preview מיידי.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">07</div>
+                    <div class="step__tool">GITHUB</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <h4>יצירת index.html</h4>
+                    <p>Create new file בשם <code>index.html</code> ומדביקים את הקוד.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">08</div>
+                    <div class="step__tool">GITHUB</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h4>Commit changes</h4>
+                    <p>הכפתור הירוק בפינה. פעולת שמירה של השינויים.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">09</div>
+                    <div class="step__tool">GITHUB PAGES</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <h4>Settings → Pages → main</h4>
+                    <p>מפעילים את האתר: בוחרים main branch ולוחצים Save.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step__num">10</div>
+                    <div class="step__tool">DEPLOY · FIX</div>
+                    <div class="step__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M12 7v5l3 2"/></svg>
+                    </div>
+                    <h4>המתנה ורענון</h4>
+                    <p>~2 דקות, ואז F5. אם יש באג — חוזרים ל-AI לתיקון.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI TOOLS -->
+    <section id="ai-tools" class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <div class="eyebrow">02a · AI Tools Comparison</div>
+                    <h2 class="h2">כלי AI — יתרונות וחסרונות.</h2>
+                </div>
+                <p>השוואה בין כלים פופולריים ליצירת קוד HTML, חינמיים ובתשלום.</p>
+            </div>
+
+            <div class="ai-grid">
+                <div class="ai-card">
+                    <div class="ai-card__header">
+                        <div class="ai-card__emoji">💬</div>
+                        <div>
+                            <h3 class="ai-card__name">ChatGPT</h3>
+                            <span class="ai-card__badge both">חינמי + פרימיום</span>
+                        </div>
+                    </div>
+                    <div class="ai-card__section-title">יתרונות</div>
+                    <ul class="ai-card__pros">
+                        <li>חינמי עם גרסאות GPT-3.5/4o-mini</li>
+                        <li>מודל 4o/4o-Turbo בתשלום — איכות גבוהה</li>
+                        <li>קהילה גדולה, הרבה תבניות מוכנות</li>
+                    </ul>
+                    <div class="ai-card__section-title">חסרונות</div>
+                    <ul class="ai-card__cons">
+                        <li>אין Preview מובנה — צריך להעתיק לסביבה חיצונית</li>
+                        <li>הגרסה החינמית מוגבלת במספר הודעות/שעה</li>
+                        <li>לעיתים מפספס הקשר בקבצים גדולים</li>
+                    </ul>
+                </div>
+
+                <div class="ai-card">
+                    <div class="ai-card__header">
+                        <div class="ai-card__emoji">🤖</div>
+                        <div>
+                            <h3 class="ai-card__name">Claude</h3>
+                            <span class="ai-card__badge both">חינמי + פרימיום</span>
+                        </div>
+                    </div>
+                    <div class="ai-card__section-title">יתרונות</div>
+                    <ul class="ai-card__pros">
+                        <li>מודל 3.5 Sonnet — מצוין לכתיבת קוד</li>
+                        <li>חלון הקשר גדול (200K טוקנים)</li>
+                        <li>תשובות מנוסחות ומובנות היטב</li>
+                    </ul>
+                    <div class="ai-card__section-title">חסרונות</div>
+                    <ul class="ai-card__cons">
+                        <li>אין Preview מובנה של ה-HTML</li>
+                        <li>הגרסה החינמית מוגבלת בשימוש יומי</li>
+                        <li>גרסאות מתקדמות דורשות מנוי בתשלום</li>
+                    </ul>
+                </div>
+
+                <div class="ai-card">
+                    <div class="ai-card__header">
+                        <div class="ai-card__emoji">🔍</div>
+                        <div>
+                            <h3 class="ai-card__name">DeepSeek / Qwen</h3>
+                            <span class="ai-card__badge free">חינמי</span>
+                        </div>
+                    </div>
+                    <div class="ai-card__section-title">יתרונות</div>
+                    <ul class="ai-card__pros">
+                        <li>חינמי לחלוטין</li>
+                        <li>מתמחה בקוד ופתרון בעיות טכניות</li>
+                        <li>מודלים קוד-פתוח (Open Source)</li>
+                    </ul>
+                    <div class="ai-card__section-title">חסרונות</div>
+                    <ul class="ai-card__cons">
+                        <li>אין תצוגה מקדימה (Preview) מובנית</li>
+                        <li>לעיתים פחות מדויק בעיצוב ו-CSS</li>
+                        <li>ממשק פחות אינטואיטיבי למתחילים</li>
+                    </ul>
+                </div>
+
+                <div class="ai-card">
+                    <div class="ai-card__header">
+                        <div class="ai-card__emoji">✖️</div>
+                        <div>
+                            <h3 class="ai-card__name">Grok</h3>
+                            <span class="ai-card__badge free">חינמי (עם חשבון X)</span>
+                        </div>
+                    </div>
+                    <div class="ai-card__section-title">יתרונות</div>
+                    <ul class="ai-card__pros">
+                        <li>Preview מובנה — רואים את התוצר מיד</li>
+                        <li>נגיש ישירות דרך grok.com</li>
+                        <li>מומלץ בהדרכה בזכות קיצור תהליכים</li>
+                    </ul>
+                    <div class="ai-card__section-title">חסרונות</div>
+                    <ul class="ai-card__cons">
+                        <li>דורש חשבון X (טוויטר)</li>
+                        <li>גרסה חינמית מוגבלת במספר הודעות</li>
+                        <li>פחות מוכר בקהילת המפתחים</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="larry-callout">
+                <div class="larry-callout__icon">👨‍🏫</div>
+                <div class="larry-callout__text">
+                    <strong>לארי ממליץ:</strong> למתחילים — השתמשו ב-Grok בזכות ה-Preview המיידי שמקצר משמעותית את תהליך הפיתוח.
+                    למתקדמים — Claude 3.5 Sonnet או ChatGPT-4o נותנים תוצאות קוד איכותיות יותר, גם אם אין בהם Preview מובנה.
+                    כל הכלים החינמיים מספיקים למטרה זו.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCEPTS -->
+    <section id="concepts" class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <div class="eyebrow">02b · Key Concepts</div>
+                    <h2 class="h2">המילון — 8 מושגים שחייבים לזכור.</h2>
+                </div>
+                <p>לפני המבחן: רענון של המונחים החשובים ביותר מהחומר.</p>
+            </div>
+
+            <div class="concepts">
+                <div class="concept">
+                    <div class="concept__tag">▲ TABLEAU</div>
+                    <h4>Tableau Public</h4>
+                    <p>פלטפורמת ענן של Tableau לאחסון ופרסום ויזואליזציות באופן חינמי. כל מה שנשמר אליה נגיש דרך <code>public.tableau.com</code>.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ TABLEAU</div>
+                    <h4>Copy Link / Copy Embed</h4>
+                    <p><strong>Copy Link</strong> — קישור ישיר לדשבורד. <strong>Copy Embed</strong> — קטע HTML מוכן להטמעה. ההדרכה משתמשת ב-Copy Link.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ GITHUB</div>
+                    <h4>Repository</h4>
+                    <p>"מחסן" ייעודי לפרויקט ב-GitHub. מכיל את קבצי הקוד, HTML, ונכסים נוספים של הפרויקט.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ GITHUB</div>
+                    <h4>index.html</h4>
+                    <p>קובץ ברירת המחדל של האתר. שם הקובץ חייב להיות <code>index.html</code> כדי ש-GitHub Pages יציג אותו אוטומטית.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ GITHUB</div>
+                    <h4>Commit changes</h4>
+                    <p>פעולת "שמירה" ב-GitHub. מאשרת שינויים בקובץ ומעדכנת אותם במחסן. הכפתור הירוק בפינה.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ HOSTING</div>
+                    <h4>GitHub Pages</h4>
+                    <p>שירות אירוח סטטי חינמי. מאפשר להפוך כל Repository לאתר חי. מוגדר תחת <code>Settings → Pages</code>.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ GITHUB</div>
+                    <h4>main (branch)</h4>
+                    <p>הענף הראשי והדיפולטי. בהגדרות Pages בוחרים אותו כמקור לפריסת האתר.</p>
+                </div>
+
+                <div class="concept">
+                    <div class="concept__tag">▲ AI TOOLS</div>
+                    <h4>Preview מובנה</h4>
+                    <p>תכונה ייחודית (בעיקר ב-Grok) שמאפשרת לראות תוצאה חזותית מידית של ה-HTML שנוצר, מבלי לעזוב את הכלי.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <div class="eyebrow">03 · Self-Test</div>
+                    <h2 class="h2">בחן את עצמך — 18 שאלות.</h2>
+                </div>
+                <p>משוב מיידי על כל שאלה. הסבר למה התשובה נכונה. כולל שאלות מחשבה מורכבות.</p>
+            </div>
+
+            <!-- Intro -->
+            <div class="quiz-intro" id="quiz-intro">
+                <div class="quiz-intro__inner">
+                    <span class="quiz-intro__tag">▲ READY TO START</span>
+                    <h2>מוכנים למבחן?</h2>
+                    <p>18 שאלות מרובות-ברירה על כל החומר של המפגש. שילוב של שאלות הגדרה, הבנה, ושאלות מחשבה מורכבות עם מספר טענות.</p>
+
+                    <div class="quiz-intro__stats">
+                        <div class="quiz-intro__stat">
+                            <div class="v">18</div>
+                            <div class="k">שאלות</div>
+                        </div>
+                        <div class="quiz-intro__stat">
+                            <div class="v">~10</div>
+                            <div class="k">דקות</div>
+                        </div>
+                        <div class="quiz-intro__stat">
+                            <div class="v">3</div>
+                            <div class="k">רמות קושי</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn--accent" onclick="Quiz.start()">
+                        התחלה
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz active area -->
+            <div class="quiz-area" id="quiz-area">
+                <div class="quiz-progress-wrap">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress__fill" id="progress-fill" style="width:0%"></div>
+                    </div>
+                    <div class="quiz-meta">
+                        <span id="q-counter">1 / 18</span>
+                        <span class="score" id="q-score">0 נקודות</span>
+                        <span class="streak" id="q-streak" style="display:none">🔥 0</span>
+                    </div>
+                </div>
+
+                <div class="q-head">
+                    <span class="q-num" id="q-num">Q01</span>
+                    <span class="diff" id="q-diff">קלה</span>
+                </div>
+
+                <div id="q-statements-wrap"></div>
+
+                <h3 class="q-text" id="q-text"></h3>
+
+                <div class="opts" id="opts"></div>
+
+                <div class="explain" id="explain">
+                    <div class="explain__head" id="explain-head">EXPLANATION</div>
+                    <h4 class="explain__title" id="explain-title"></h4>
+                    <p class="explain__body" id="explain-body"></p>
+                </div>
+
+                <div class="q-actions">
+                    <span class="hint" id="q-hint">לחצו על תשובה</span>
+                    <button class="btn btn--accent" id="btn-next" style="display:none" onclick="Quiz.next()">
+                        <span id="btn-next-label">הבאה</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results" id="results">
+                <div class="results__inner">
+                    <div class="results__emoji" id="res-emoji">🎉</div>
+                    <h2 id="res-title">כל הכבוד!</h2>
+                    <div class="results__score"><span id="res-score">0</span><small>/18</small></div>
+                    <p class="results__desc" id="res-desc"></p>
+
+                    <div class="results__breakdown">
+                        <div>
+                            <div class="v" style="color:var(--success)" id="res-correct">0</div>
+                            <div class="k">נכון</div>
+                        </div>
+                        <div>
+                            <div class="v" style="color:var(--error)" id="res-wrong">0</div>
+                            <div class="k">שגוי</div>
+                        </div>
+                        <div>
+                            <div class="v" style="color:var(--accent)" id="res-pct">0%</div>
+                            <div class="k">ציון</div>
+                        </div>
+                    </div>
+
+                    <div class="results__actions">
+                        <button class="btn btn--accent" onclick="Quiz.restart()">
+                            מבחן נוסף
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                        </button>
+                        <a href="#workflow" class="btn btn--ghost">חזרה למושגים</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <span>© <span id="year"></span> · Praxis / Learn</span>
+            <span class="larry-credit">👨‍🏫 בהנחיית לארי · כל הזכויות שמורות</span>
+            <span>Meeting 3 · Creating & Publishing Dashboards</span>
+        </div>
+    </footer>
+
+    <!-- ==================== QUIZ DATA ==================== -->
+    <script>
+        const QUESTIONS = [
+            {
+                difficulty: 'easy',
+                q: 'מהו המסלול בתפריט של תוכנת Tableau לשמירת הדשבורד בענן?',
+                statements: null,
+                opts: [
+                    'Dashboard → Save to Cloud',
+                    'File → Save to Tableau Public',
+                    'Data → Export to Web',
+                    'Worksheet → Publish'
+                ],
+                correct: 1,
+                title: 'File → Save to Tableau Public',
+                exp: 'בתוך תוכנת Tableau המקומית, יש לגשת לתפריט <strong>File</strong> ולבחור <code>Save to Tableau Public</code>. זהו הצעד הראשון בפרסום הדשבורד — הוא מעלה את הקובץ לענן של Tableau.'
+            },
+            {
+                difficulty: 'easy',
+                q: 'איזה כפתור בדשבורד של Tableau Public פותח את אפשרויות השיתוף?',
+                statements: null,
+                opts: [
+                    'Publish',
+                    'Export',
+                    'Share (סמל השרשרת/עיגולים מחוברים)',
+                    'Embed'
+                ],
+                correct: 2,
+                title: 'Share — הכפתור הנכון',
+                exp: 'בפאנל העליון של הדשבורד ב-Tableau Public יש כפתור <strong>Share</strong> (מסומן באייקון של עיגולים מחוברים, מזכיר "שיתוף"). לחיצה עליו פותחת חלון עם שתי אפשרויות העתקה: <code>Copy Embed Code</code> ו-<code>Copy Link</code>.'
+            },
+            {
+                difficulty: 'easy',
+                q: 'איזו אפשרות מעתיקים מחלון השיתוף כדי להטמיע את הדשבורד באתר שנבנה בהדרכה?',
+                statements: null,
+                opts: [
+                    'Copy Embed Code',
+                    'Copy Link',
+                    'Copy URL',
+                    'Copy HTML'
+                ],
+                correct: 1,
+                title: 'Copy Link',
+                exp: 'בלוח השיתוף יש שתי אפשרויות. בהדרכה נבחרת <strong>Copy Link</strong> — היא מעתיקה קישור ישיר לדשבורד, שאותו נעביר לכלי AI כדי שיוטמע בקוד ה-HTML של האתר.'
+            },
+            {
+                difficulty: 'easy',
+                q: 'מה משמעות המונח Repository ב-GitHub?',
+                statements: null,
+                opts: [
+                    'מאגר משתמשים רשומים',
+                    'מחסן ייעודי לקבצי הפרויקט',
+                    'שרת ענן עצמאי',
+                    'תוכנה מסחרית לעריכת קוד'
+                ],
+                correct: 1,
+                title: 'Repository = מחסן לפרויקט',
+                exp: 'המונח <strong>Repository</strong> הוא כעין "מחסן" ייעודי לפרויקט. בתוך ה-Repository ניתן לאחסן קבצי נתונים, קבצי HTML, יישומים ופריטים נוספים — הכל תחת מקום אחד שניתן לתחזק, לשתף ולפרוס.'
+            },
+            {
+                difficulty: 'easy',
+                q: 'איזה שם חייב להיות לקובץ ה-HTML הראשי שיוצרים בתוך ה-Repository?',
+                statements: null,
+                opts: [
+                    'site.html',
+                    'home.html',
+                    'index.html',
+                    'main.html'
+                ],
+                correct: 2,
+                title: 'index.html',
+                exp: 'הקובץ <code>index.html</code> הוא קובץ ברירת המחדל שדפדפנים טוענים כשפונים לכתובת האתר. GitHub Pages מחפש אותו אוטומטית — ובלעדיו, האתר לא יוצג.'
+            },
+            {
+                difficulty: 'medium',
+                q: 'איזה כלי AI מומלץ בהדרכה בזכות ממשק שמאפשר תצוגה מקדימה (Preview) של ה-HTML?',
+                statements: null,
+                opts: [
+                    'ChatGPT',
+                    'Claude',
+                    'Grok',
+                    'DeepSeek'
+                ],
+                correct: 2,
+                title: 'Grok — בזכות ה-Preview',
+                exp: 'לדברי ההדרכה, <strong>Grok</strong> מומלץ במיוחד כי יש לו "ממשק שמאפשר להציג את התוצר (Preview) של ה-HTML בלחיצת כפתור". זה מקצר משמעותית את מחזור הפיתוח ומאפשר בדיקה חזותית מיידית מבלי לעזוב את הכלי.'
+            },
+            {
+                difficulty: 'medium',
+                q: 'איזו הגדרה היא חובה בעת יצירת Repository חדש?',
+                statements: null,
+                opts: [
+                    'Description',
+                    'Repository Name',
+                    'License',
+                    'README file'
+                ],
+                correct: 1,
+                title: 'Repository Name — חובה (*)',
+                exp: 'שדה <strong>Repository Name</strong> מסומן בכוכבית (*) ולכן הוא חובה. לעומת זאת, <code>Description</code> אופציונלי — בהדרכה מצוין שלא נגע בו בשלב הראשוני, אך במקרים אחרים תיאור יעזור לזהות את מטרת המחסן.'
+            },
+            {
+                difficulty: 'easy',
+                q: 'לאחר יצירת הקובץ index.html והדבקת הקוד בתוכו, איזה כפתור לוחצים כדי לשמור את השינויים?',
+                statements: null,
+                opts: [
+                    'Save File',
+                    'Publish',
+                    'Commit changes (הכפתור הירוק)',
+                    'Update Repository'
+                ],
+                correct: 2,
+                title: 'Commit changes',
+                exp: '<strong>Commit changes</strong> הוא המונח המקובל ב-GitHub לפעולת "שמירה" של שינויים. הכפתור מופיע בצבע ירוק בצד ימין של מסך העריכה.'
+            },
+            {
+                difficulty: 'medium',
+                q: 'היכן נמצאת ההגדרה שמאפשרת להפעיל את GitHub Pages?',
+                statements: null,
+                opts: [
+                    'Code → Public',
+                    'Insights → Pages',
+                    'Settings → Pages',
+                    'Actions → Deploy'
+                ],
+                correct: 2,
+                title: 'Settings → Pages',
+                exp: 'מתוך ה-Repository לוחצים על <strong>Settings</strong>, ואז בתפריט הצד הימני בוחרים <strong>Pages</strong>. שם מגדירים את Branch ואת ה-Source שממנו GitHub יפרוס את האתר.'
+            },
+            {
+                difficulty: 'easy',
+                q: 'איזה branch בוחרים בהגדרות Pages כדי להפעיל את האתר?',
+                statements: null,
+                opts: [
+                    'dev',
+                    'production',
+                    'main',
+                    'deploy'
+                ],
+                correct: 2,
+                title: 'main',
+                exp: 'תחת <strong>Branch</strong> יש תפריט הגלילה הראשון ובו בוחרים <code>main</code>. זהו הענף הראשי והדיפולטי של ה-Repository בגרסאות החדשות של GitHub.'
+            },
+            {
+                difficulty: 'medium',
+                q: 'לאחר שמירת ההגדרות של Pages, מה צריך לעשות כדי לראות את האתר?',
+                statements: null,
+                opts: [
+                    'להתקין תוכנה מיוחדת',
+                    'להמתין ~2 דקות ולבצע רענון (F5)',
+                    'לשלוח בקשה לתמיכה של GitHub',
+                    'להפעיל מחדש את הדפדפן'
+                ],
+                correct: 1,
+                title: 'המתנה ורענון',
+                exp: 'פריסה ב-GitHub Pages לוקחת זמן — בדרך כלל <strong>כ-2 דקות</strong>, לפעמים מעט יותר. לאחר ההמתנה מבצעים <strong>F5</strong> (רענון) לדף ההגדרות. הקישור לאתר יופיע במסגרת ירוקה.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'להלן מספר טענות בנוגע ל-Tableau Public. איזו מהן נכונה?',
+                statements: [
+                    'כל תרשים שבונים ב-Tableau ניתן לשמור רק באופן מקומי (לוקאלי)',
+                    'כל תרשים שבונים ב-Tableau ניתן לשמור רק בענן',
+                    'ניתן לגשת לתרשימים ב-Tableau Public אבל לא ניתן להטמיעם באתרים אחרים',
+                    'Tableau Public מאפשר לבחור בין שמירה מקומית לשמירה בענן (דרך File → Save to Tableau Public)'
+                ],
+                opts: [
+                    'טענה 1 בלבד',
+                    'טענה 2 בלבד',
+                    'טענה 4 בלבד',
+                    'טענות 2 ו-3 נכונות'
+                ],
+                correct: 2,
+                title: 'טענה 4 בלבד נכונה',
+                exp: 'טענה 1 שגויה — ניתן לשמור גם בענן. טענה 2 שגויה — ניתן לשמור גם מקומית. טענה 3 שגויה — דשבורדים ב-Tableau Public <strong>ניתן</strong> להטמיע באתרים אחרים (וזה בדיוק מה שעושים בהדרכה). <strong>טענה 4 נכונה</strong>: Tableau Public מאפשר את שתי האפשרויות — שמירה מקומית ושמירה בענן דרך <code>File → Save to Tableau Public</code>.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'להלן מספר טענות בנוגע ל-GitHub Pages. איזו מהן נכונה?',
+                statements: [
+                    'GitHub Pages מאפשר אירוח אתרים דינמיים עם מסד נתונים',
+                    'GitHub Pages הוא שירות בתשלום בלבד',
+                    'כדי להפעיל GitHub Pages יש להגדיר Repository עם קובץ index.html ולבחור main branch בהגדרות Pages',
+                    'GitHub Pages דורש התקנת שרת מקומי על המחשב'
+                ],
+                opts: [
+                    'טענה 1 בלבד',
+                    'טענה 2 בלבד',
+                    'טענה 3 בלבד',
+                    'טענות 3 ו-4 נכונות'
+                ],
+                correct: 2,
+                title: 'טענה 3 בלבד נכונה',
+                exp: 'טענה 1 שגויה — GitHub Pages מיועד לאתרים <strong>סטטיים</strong> (HTML/CSS/JS), לא דינמיים עם מסד נתונים. טענה 2 שגויה — השירות <strong>חינמי</strong>. טענה 4 שגויה — אין צורך בשרת מקומי. <strong>טענה 3 נכונה</strong>: נדרש Repository עם <code>index.html</code> ובחירה ב-main branch בהגדרות <code>Settings → Pages</code>.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'האתר נפרס בהצלחה אבל הדשבורד המוטמע מופיע כמסך לבן ריק. מה הפתרון הראשון שמוצע בהדרכה?',
+                statements: null,
+                opts: [
+                    'למחוק את ה-Repository ולהתחיל מחדש',
+                    'להיכנס ל-public.tableau.com בדפדפן, להתחבר עם שם משתמש וסיסמה, לחזור ל-Tableau ולבצע שוב Save to Tableau Public',
+                    'לשנות את צבע הרקע של הדשבורד',
+                    'להחליף ל-Firefox'
+                ],
+                correct: 1,
+                title: 'באג זמני — דורש התחברות מחדש',
+                exp: 'זהו באג ידוע של Save to Tableau Public (הופיע גם אצל המרצה וחלק מהתלמידים). הפתרון הראשוני: <strong>להיכנס ל-public.tableau.com</strong>, להתחבר עם שם המשתמש והסיסמה שלכם, ורק לאחר שהתחברתם — לחזור ל-Tableau ולבצע שוב את ה-Save.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'דרך חלופית אחרי Save to Tableau Public: מהיכן ניתן לגשת לכל הוויזואליזציות שפורסמו?',
+                statements: null,
+                opts: [
+                    'Google Search',
+                    'האזור האישי ב-GitHub',
+                    'My Profile באתר public.tableau.com (דרך אייקון האיש האפור בפינה)',
+                    'תוכנת Tableau Desktop בלבד'
+                ],
+                correct: 2,
+                title: 'My Profile ב-Tableau Public',
+                exp: 'דרך נוספת (שעובדת גם אם הופיעה הודעת שגיאה): נכנסים ל-<code>public.tableau.com</code>, לוחצים על <strong>אייקון האיש האפור</strong> בפינה הימנית העליונה, ובוחרים <strong>My Profile</strong>. כל הוויזואליזציות שפורסמו אמורות להופיע בחלק התחתון של המסך.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'להלן מספר טענות בנוגע לכלי AI ליצירת קוד. איזו מהן נכונה?',
+                statements: [
+                    'לכל כלי AI קיימת תכונת Preview מובנה',
+                    'רק Grok מציע Preview מובנה, בעוד ש-ChatGPT, Claude, DeepSeek ו-Qwen דורשים העתקה לסביבה חיצונית',
+                    'כל כלי ה-AI החינמיים מציעים את אותה איכות קוד בדיוק',
+                    'Claude ו-ChatGPT אינם תומכים ביצירת קוד HTML כלל'
+                ],
+                opts: [
+                    'טענה 1 בלבד',
+                    'טענה 2 בלבד',
+                    'טענות 1 ו-3 נכונות',
+                    'טענות 3 ו-4 נכונות'
+                ],
+                correct: 1,
+                title: 'טענה 2 בלבד נכונה',
+                exp: 'טענה 1 שגויה — <strong>רק Grok</strong> (מבין הכלים שנסקרו) מציע Preview מובנה. טענה 3 שגויה — איכות הקוד משתנה בין המודלים (למשל Claude 3.5 Sonnet ו-GPT-4 נחשבים לאיכותיים יותר). טענה 4 שגויה — <strong>כולם</strong> תומכים ביצירת HTML. <strong>טענה 2 נכונה</strong>: Grok הוא היחיד עם Preview מובנה.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'להלן מספר טענות בנוגע לסדר הפעולות. איזו מהן נכונה?',
+                statements: [
+                    'יש להפעיל GitHub Pages לפני שיוצרים את קובץ index.html',
+                    'יש ליצור Repository חדש לפני שמבצעים Save to Tableau Public',
+                    'יש לבצע Commit changes לפני שמדביקים את קוד ה-HTML בקובץ index.html',
+                    'יש להמתין כ-2 דקות לאחר שמירת הגדרות Pages ולבצע רענון (F5) כדי לראות את האתר'
+                ],
+                opts: [
+                    'טענה 1 בלבד',
+                    'טענה 2 בלבד',
+                    'טענה 3 בלבד',
+                    'טענה 4 בלבד'
+                ],
+                correct: 3,
+                title: 'טענה 4 בלבד נכונה',
+                exp: 'טענה 1 שגויה — קודם יוצרים את הקובץ ורק אז מפעילים Pages. טענה 2 שגויה — ניתן לבצע Save to Tableau Public בכל שלב, ללא תלות ב-Repository. טענה 3 שגויה — קודם מדביקים את הקוד ורק אז מבצעים Commit. <strong>טענה 4 נכונה</strong>: לאחר שמירת הגדרות Pages יש להמתין ~2 דקות ואז לבצע F5.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'מה הקיצור המקלדתי הנוח להחלפה מלאה של תוכן קובץ קיים ב-GitHub?',
+                statements: null,
+                opts: [
+                    'Ctrl+N ליצירת קובץ חדש ואז הדבקה',
+                    'Ctrl+A לבחירה מלאה, מחיקה, ואז Ctrl+V להדבקת הקוד החדש',
+                    'Ctrl+Z מספר פעמים עד מצב ריק',
+                    'Ctrl+F כדי לבצע Find & Replace'
+                ],
+                correct: 1,
+                title: 'Ctrl+A → מחיקה → Ctrl+V',
+                exp: 'זרימת העבודה הסטנדרטית: <code>Ctrl+A</code> לבחירת כל תוכן הקובץ, <code>Delete</code> למחיקה, ואז <code>Ctrl+V</code> להדבקת הקוד החדש שהעתקתם מכלי ה-AI. לאחר מכן — Commit changes.'
+            },
+            {
+                difficulty: 'hard',
+                q: 'מה היתרון המרכזי של GitHub Pages כפלטפורמה לאירוח האתר (במיוחד לצורך הקורס)?',
+                statements: null,
+                opts: [
+                    'היא מהירה יותר מכל שירות מסחרי קיים',
+                    'אחסון סטטי חינמי של אתר — ללא צורך בשרת, ללא תחזוקה, ישירות מתוך ה-Repository',
+                    'מובנים בה כלי עיצוב גרפי מתקדמים',
+                    'האתר גלוי רק למשתמשי GitHub רשומים'
+                ],
+                correct: 1,
+                title: 'אחסון סטטי חינמי',
+                exp: '<strong>GitHub Pages</strong> מאפשר לפרסם אתר סטטי (HTML/CSS/JS) ישירות מתוך Repository — בחינם, ללא צורך להקים שרת או לנהל תשתית. לכן הוא מושלם למקרה של הטמעת דשבורד Tableau עם מעטפת HTML פשוטה: עלות אפס, תחזוקה אפס, פריסה תוך דקות.'
+            }
+        ];
+
+        /* ==================== QUIZ ENGINE ==================== */
+        const Quiz = (() => {
+            let current = 0;
+            let score = 0;
+            let streak = 0;
+            let answered = [];
+            let answering = true;
+
+            const el = {
+                intro: document.getElementById('quiz-intro'),
+                area: document.getElementById('quiz-area'),
+                results: document.getElementById('results'),
+                progress: document.getElementById('progress-fill'),
+                counter: document.getElementById('q-counter'),
+                scoreEl: document.getElementById('q-score'),
+                streakEl: document.getElementById('q-streak'),
+                qNum: document.getElementById('q-num'),
+                qDiff: document.getElementById('q-diff'),
+                qText: document.getElementById('q-text'),
+                statementsWrap: document.getElementById('q-statements-wrap'),
+                opts: document.getElementById('opts'),
+                explain: document.getElementById('explain'),
+                explainHead: document.getElementById('explain-head'),
+                explainTitle: document.getElementById('explain-title'),
+                explainBody: document.getElementById('explain-body'),
+                hint: document.getElementById('q-hint'),
+                btnNext: document.getElementById('btn-next'),
+                btnNextLabel: document.getElementById('btn-next-label'),
+            };
+
+            function start() {
+                current = 0; score = 0; streak = 0; answered = [];
+                el.intro.style.display = 'none';
+                el.results.classList.remove('active');
+                el.area.classList.add('active');
+                render();
+                el.area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function render() {
+                answering = true;
+                const q = QUESTIONS[current];
+                const total = QUESTIONS.length;
+
+                el.progress.style.width = ((current) / total * 100) + '%';
+                el.counter.textContent = `${current + 1} / ${total}`;
+                el.scoreEl.textContent = `${score} נקודות`;
+                el.streakEl.style.display = streak >= 3 ? 'inline-block' : 'none';
+                el.streakEl.textContent = `🔥 ${streak}`;
+
+                el.qNum.textContent = `Q${String(current + 1).padStart(2, '0')}`;
+                el.qDiff.className = `diff ${q.difficulty}`;
+                el.qDiff.textContent = q.difficulty === 'easy' ? 'קלה' : q.difficulty === 'medium' ? 'בינונית' : 'קשה';
+                el.qText.innerHTML = q.q;
+
+                // statements
+                el.statementsWrap.innerHTML = '';
+                if (q.statements && q.statements.length > 0) {
+                    let html = '<div class="statements">';
+                    q.statements.forEach((s, i) => {
+                        html += `<div class="statement">
+                            <span class="statement__num">טענה ${i + 1}</span>
+                            <span class="statement__text">${s}</span>
+                        </div>`;
+                    });
+                    html += '</div>';
+                    el.statementsWrap.innerHTML = html;
+                    el.qText.style.marginTop = '24px';
+                } else {
+                    el.qText.style.marginTop = '0';
+                }
+
+                // options
+                el.opts.innerHTML = '';
+                const letters = ['א', 'ב', 'ג', 'ד'];
+                q.opts.forEach((text, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'opt';
+                    btn.innerHTML = `
+                        <span class="opt__letter">${letters[i]}</span>
+                        <span class="opt__text">${text}</span>
+                        <span class="opt__mark"></span>
+                    `;
+                    btn.addEventListener('click', () => answer(i, btn));
+                    el.opts.appendChild(btn);
+                });
+
+                // reset UI
+                el.explain.classList.remove('show');
+                el.hint.style.display = 'inline';
+                el.hint.textContent = 'לחצו על תשובה';
+                el.btnNext.style.display = 'none';
+                el.btnNextLabel.textContent = current === QUESTIONS.length - 1 ? 'לסיכום' : 'הבאה';
+            }
+
+            function answer(idx, btnEl) {
+                if (!answering) return;
+                answering = false;
+                const q = QUESTIONS[current];
+                const correct = idx === q.correct;
+                answered.push(correct);
+
+                // mark all options
+                const allOpts = el.opts.querySelectorAll('.opt');
+                allOpts.forEach((b, i) => {
+                    b.disabled = true;
+                    if (i === q.correct) {
+                        b.classList.add('correct');
+                        b.querySelector('.opt__mark').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                    } else if (i === idx && !correct) {
+                        b.classList.add('wrong');
+                        b.querySelector('.opt__mark').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+                    }
+                });
+
+                // scoring
+                if (correct) {
+                    const pts = q.difficulty === 'hard' ? 3 : q.difficulty === 'medium' ? 2 : 1;
+                    score += pts;
+                    streak++;
+                    el.explainHead.className = 'explain__head correct';
+                    el.explainHead.textContent = streak >= 3 ? `✓ נכון · רצף של ${streak}!` : '✓ תשובה נכונה';
+                    Confetti.burst(correct && streak >= 3 ? 'big' : 'small');
+                } else {
+                    streak = 0;
+                    el.explainHead.className = 'explain__head wrong';
+                    el.explainHead.textContent = '✗ לא מדויק';
+                    btnEl.classList.add('shake');
+                    setTimeout(() => btnEl.classList.remove('shake'), 400);
+                }
+
+                // explanation
+                el.explainTitle.innerHTML = q.title;
+                el.explainBody.innerHTML = q.exp;
+                el.explain.classList.add('show');
+
+                // update meta
+                el.scoreEl.textContent = `${score} נקודות`;
+                el.streakEl.style.display = streak >= 3 ? 'inline-block' : 'none';
+                el.streakEl.textContent = `🔥 ${streak}`;
+
+                // show next
+                el.hint.style.display = 'none';
+                el.btnNext.style.display = 'inline-flex';
+
+                // progress fill up to current
+                el.progress.style.width = ((current + 1) / QUESTIONS.length * 100) + '%';
+            }
+
+            function next() {
+                if (current < QUESTIONS.length - 1) {
+                    current++;
+                    render();
+                } else {
+                    finish();
+                }
+            }
+
+            function finish() {
+                el.area.classList.remove('active');
+                const correctCount = answered.filter(Boolean).length;
+                const wrongCount = answered.length - correctCount;
+                const total = QUESTIONS.length;
+                const pct = Math.round(correctCount / total * 100);
+
+                document.getElementById('res-correct').textContent = correctCount;
+                document.getElementById('res-wrong').textContent = wrongCount;
+                document.getElementById('res-pct').textContent = pct + '%';
+                document.getElementById('res-score').textContent = correctCount;
+
+                let emoji, title, desc;
+                if (pct === 100) {
+                    emoji = '🏆'; title = 'מושלם!';
+                    desc = 'שליטה מלאה בחומר. אתם מוכנים להעביר את השיעור הזה בעצמכם. תודה שלמדתם עם לארי!';
+                    Confetti.burst('mega');
+                } else if (pct >= 85) {
+                    emoji = '🌟'; title = 'מעולה';
+                    desc = 'רמת הבנה גבוהה. עוברו בקצרה על השאלות שטעיתם בהן ותהיו שם. לארי היה גאה בכם!';
+                    Confetti.burst('big');
+                } else if (pct >= 70) {
+                    emoji = '👍'; title = 'יפה מאוד';
+                    desc = 'הבסיס שלכם חזק. שווה לחזור על האינפוגרפיקה ולחדד את המושגים החסרים. כפי שלארי לימד — חזרה היא המפתח.';
+                    Confetti.burst('small');
+                } else if (pct >= 50) {
+                    emoji = '📚'; title = 'יש על מה לעבוד';
+                    desc = 'כדאי לחזור על סקירת המושגים ועל המסלול המלא, ולנסות שוב. לארי ממליץ לעבור שוב על החומר לפני הניסיון הבא.';
+                } else {
+                    emoji = '🔄'; title = 'מומלץ לחזור על החומר';
+                    desc = 'קראו שוב את מסמך ההדרכה, עברו על המושגים והמסלול, ונסו שוב. זה לא קשה — רק דורש חזרה. לארי כאן כדי לעזור!';
+                }
+
+                document.getElementById('res-emoji').textContent = emoji;
+                document.getElementById('res-title').textContent = title;
+                document.getElementById('res-desc').textContent = desc;
+
+                el.results.classList.add('active');
+                el.results.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            function restart() {
+                el.results.classList.remove('active');
+                start();
+            }
+
+            return { start, next, restart };
+        })();
+
+        /* ==================== CONFETTI ==================== */
+        const Confetti = (() => {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let running = false;
+
+            const colors = ['#3B82F6', '#6366F1', '#0EA5E9', '#10B981', '#F59E0B', '#EC4899', '#7C3AED'];
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function spawn(count, spread) {
+                const originX = canvas.width / 2;
+                const originY = canvas.height / 2;
+                for (let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 4 + Math.random() * (spread || 6);
+                    particles.push({
+                        x: originX + (Math.random() - 0.5) * 200,
+                        y: originY + (Math.random() - 0.5) * 100,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed - 4,
+                        g: 0.18 + Math.random() * 0.08,
+                        size: 4 + Math.random() * 6,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        rot: Math.random() * Math.PI,
+                        vRot: (Math.random() - 0.5) * 0.3,
+                        shape: Math.random() > 0.5 ? 'rect' : 'circle',
+                        life: 1,
+                        decay: 0.004 + Math.random() * 0.006
+                    });
+                }
+                if (!running) loop();
+            }
+
+            function loop() {
+                running = true;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles = particles.filter(p => p.life > 0 && p.y < canvas.height + 40);
+                particles.forEach(p => {
+                    p.vy += p.g;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rot += p.vRot;
+                    p.life -= p.decay;
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.life);
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.fillStyle = p.color;
+                    if (p.shape === 'rect') {
+                        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                });
+                if (particles.length > 0) {
+                    requestAnimationFrame(loop);
+                } else {
+                    running = false;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            function burst(size) {
+                const counts = { small: 50, big: 120, mega: 250 };
+                const spreads = { small: 5, big: 8, mega: 12 };
+                const count = counts[size] || 50;
+                const spread = spreads[size] || 5;
+
+                if (size === 'mega') {
+                    spawn(count, spread);
+                    setTimeout(() => spawn(count, spread), 250);
+                    setTimeout(() => spawn(count, spread), 500);
+                } else {
+                    spawn(count, spread);
+                }
+            }
+
+            return { burst };
+        })();
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
